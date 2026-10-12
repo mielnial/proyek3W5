@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatelessCartController;
 
 Route::get('/', [ProductController::class, 'index'])->name('produk.index');
 
@@ -28,3 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pesanan', [OrderController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [OrderController::class, 'show'])->name('pesanan.show');
 });
+
+Route::get('/stateless', [StatelessCartController::class, 'index'])->name('stateless.index');
+Route::post('/stateless/cart/add', [StatelessCartController::class, 'add'])->name('stateless.add');
+Route::post('/stateless/cart/update', [StatelessCartController::class, 'update'])->name('stateless.update');
