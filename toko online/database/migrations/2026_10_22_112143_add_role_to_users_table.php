@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-          $table->string('costumer', 20)->default('nilai')->index();
+       $table->string('role', 20)->default('customer')->index();
         });
     }
 
