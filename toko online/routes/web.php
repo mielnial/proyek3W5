@@ -19,7 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/keranjang', [CartController::class, 'index'])->name('keranjang.index');
-    Route::post('/keranjang/tambah/{id}', [CartController::class, 'add'])->name('keranjang.tambah');
+    Route::post('/keranjang/tambah/{id}', [CartController::class, 'add'])
+        ->middleware('can:use-cart')
+        ->name('keranjang.tambah');
     Route::post('/keranjang/{id}/ubah', [CartController::class, 'update'])->name('keranjang.ubah');
     Route::post('/keranjang/{id}/hapus', [CartController::class, 'remove'])->name('keranjang.hapus');
     Route::post('/keranjang/kosongkan', [CartController::class, 'clear'])->name('keranjang.kosongkan');
@@ -39,5 +41,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/stateless', [StatelessCartController::class, 'index'])->name('stateless.index');
-Route::post('/stateless/cart/add', [StatelessCartController::class, 'add'])->name('stateless.add');
+Route::post('/stateless/cart/add', [StatelessCartController::class, 'add'])
+    ->middleware(['auth', 'can:use-cart'])
+    ->name('stateless.add');
 Route::post('/stateless/cart/update', [StatelessCartController::class, 'update'])->name('stateless.update');
