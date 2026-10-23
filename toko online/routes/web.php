@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatelessCartController;
+use App\Http\Controllers\RoleController;
 
 Route::get('/', [ProductController::class, 'index'])->name('produk.index');
 
@@ -28,6 +29,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/pesanan', [OrderController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [OrderController::class, 'show'])->name('pesanan.show');
+        Route::get('/admin/users', [RoleController::class, 'index'])
+        ->middleware('can:manage-roles')
+        ->name('admin.users.index');
+
+    Route::patch('/admin/users/{user}/role', [RoleController::class, 'update'])
+        ->middleware('can:manage-roles')
+        ->name('admin.users.role.update');
 });
 
 Route::get('/stateless', [StatelessCartController::class, 'index'])->name('stateless.index');
